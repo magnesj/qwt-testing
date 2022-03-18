@@ -1,4 +1,5 @@
 #include <QApplication>
+
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_plot_grid.h>
@@ -12,21 +13,19 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QwtAxisId axisY1(QwtPlot::yLeft, 0);
-    QwtAxisId axisY2(QwtPlot::yLeft, 1);
+    QwtAxisId axisY1(QwtAxis::YLeft, 0);
+    QwtAxisId axisY2(QwtAxis::YLeft, 1);
 
     QwtPlot plot;
     plot.setTitle("Plot Demo");
     plot.setCanvasBackground(Qt::white);
-    plot.setAxesCount(QwtPlot::yLeft, 2);
+    plot.setAxesCount(QwtAxis::YLeft, 2);
 
     plot.setAxisAutoScale(axisY1, true);
     plot.setAxisAutoScale(axisY2, true);
 
-    plot.enableAxis(QwtPlot::xBottom, false);
-
-    plot.setAxisVisible(axisY1, false); // Comment this to show the axis 1
-    plot.setAxisVisible(axisY2, false); // Comment this to show the axis 2
+	plot.setAxisTitle(axisY1, "first title");
+	plot.setAxisTitle(axisY2, "second title");
 
     plot.insertLegend(new QwtLegend());
 
@@ -50,21 +49,18 @@ int main(int argc, char *argv[])
         list2y.push_back(2 * cos(var));
     }
 
-    QwtPointArrayData *data1 = new QwtPointArrayData(listX, list1y);
-    QwtPointArrayData *data2 = new QwtPointArrayData(listX, list2y);
-
     QwtPlotCurve *curve1 = new QwtPlotCurve();
     QwtPlotCurve *curve2 = new QwtPlotCurve();
 
     curve1->setTitle("Curve Sin(x)");
     curve1->setPen(Qt::blue, 4),
         curve1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    curve1->setSamples(data1);
+    curve1->setSamples(listX, list1y);
 
     curve2->setTitle("Curve 2*cos(x)");
     curve2->setPen(Qt::red, 4),
         curve2->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-    curve2->setSamples(data2);
+    curve2->setSamples(listX, list2y);
 
     curve1->setYAxis(axisY1);
     curve2->setYAxis(axisY2);

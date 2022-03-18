@@ -15,10 +15,10 @@ endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_executable(
+add_executable( helloworld
     main.cpp
 )
 
 add_subdirectory(qwt)
 
-target_link_libraries(helloworld qwt Qt5::Widgets)
+target_link_libraries(helloworld qwt )
